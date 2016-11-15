@@ -1,0 +1,33 @@
+﻿<div class="row">
+    <div class="medium-12 columns">
+        <h2>Lägg till fordon</h2>
+    </div>
+</div>
+
+<form ng-submit="$ctrl.submit()">
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Namn
+                <input type="text" ng-model="$ctrl.vehicleName">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Drivmedel
+                <select ng-model="$ctrl.fuel">
+                    <option value="petrol">Bensin</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="e85">E85</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <input type="submit" id="submit" class="button" value="Lägg till" />
+        </div>
+    </div>
+</form>
