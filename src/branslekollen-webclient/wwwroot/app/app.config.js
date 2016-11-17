@@ -5,12 +5,30 @@ angular.
         $locationProvider.hashPrefix('!');
 
         $routeProvider.
-          when('/dashboard', {
-              template: '<dashboard></dashboard>'
-          }).
-          when('/lagg-till-fordon', {
-              template: '<create-vehicle></create-vehicle>'
-          }).
-          otherwise('/dashboard');
+            when('/start', {
+                template: '<start></start>'
+            }).
+            when('/dashboard', {
+                template: '<dashboard></dashboard>'
+            }).
+            when('/statistik', {
+                template: '<statistics></statistics>'
+            }).
+            when('/lagg-till-tankning', {
+                template: '<add-refueling></add-refueling>'
+            }).
+            when('/historik', {
+                template: '<history></history>'
+            }).
+            when('/profil', {
+                template: '<profile></profile>'
+            }).
+            when('/lagg-till-fordon', {
+                template: '<create-vehicle></create-vehicle>'
+            }).
+            when('/tankning', {
+                template: '<refueling></refueling>'
+            }).
+            otherwise('/start');
     }
   ]);
