@@ -2,12 +2,15 @@
     .component('start',
     {
         templateUrl: 'app/start/start.template.html',
-        controller: ['$location', 'localStorageService',
-            function StartController($location, localStorageService) {
-                var vehicleIds = localStorageService.get('bkVehicleIds');
-                if (vehicleIds && vehicleIds.length > 0) {
-                    $location.path('/dashboard');
-                }
+        controller: ['$location', '$log', 'vehicleService',
+            function StartController($location, $log, vehicleService) {
+                vehicleService.getAll()
+                    .then(
+                        function (response) {
+                            if (response.data && response.data.length > 0)
+                                $location.path('/dashboard');
+                        }
+                    );
             }
         ]
     });

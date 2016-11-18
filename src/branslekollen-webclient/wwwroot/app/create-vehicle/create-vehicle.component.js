@@ -7,7 +7,11 @@
                 this.vehicleName = '';
                 this.fuel = 'petrol';
                 this.submit = function () {
-                    vehicleService.create(this.vehicleName, this.fuel);
+                    vehicleService.create(this.vehicleName, this.fuel)
+                        .then(
+                            function(response) { alert("SUCCESS!"); },
+                            function(error) { alert("FAILED"); }
+                        );
                 }
             }
         ]
