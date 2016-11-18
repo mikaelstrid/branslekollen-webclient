@@ -1,7 +1,7 @@
 ﻿angular.module('myApp')
     .component('start',
     {
-        templateUrl: 'app/start/start.template.html',
+        templateUrl: 'app/components/start/start.template.html',
         controller: ['$location', '$log', 'vehicleService',
             function StartController($location, $log, vehicleService) {
                 vehicleService.getAll()

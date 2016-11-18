@@ -1,7 +1,7 @@
 ﻿angular.module('myApp')
     .component('createVehicle',
     {
-        templateUrl: 'app/create-vehicle/create-vehicle.template.html',
+        templateUrl: 'app/components/create-vehicle/create-vehicle.template.html',
         controller: ['vehicleService',
             function CreateVehicleController(vehicleService) {
                 this.vehicleName = '';
