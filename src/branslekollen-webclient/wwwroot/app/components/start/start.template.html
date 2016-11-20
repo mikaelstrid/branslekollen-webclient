@@ -1,4 +1,15 @@
-﻿<div class="row">
+﻿<div class="row" ng-if="$ctrl.loading">
+    <div class="medium-12 columns">
+        <p>Laddar fordon...</p>
+    </div>
+</div>
+<div class="row" ng-if="!$ctrl.loading && $ctrl.noConnection">
+    <div class="medium-12 columns">
+        <p>Kunde inte få kontakt med servern just nu. :(</p>
+        <a class="button" ng-click="$ctrl.loadVehicles()">Försök igen</a>
+    </div>
+</div>
+<div class="row" ng-if="!$ctrl.loading && !$ctrl.noConnection">
     <div class="medium-12 columns">
         <h2>Välkommen</h2>
         <p>Tryck på knappen nedan för att komma igång med appen!</p>

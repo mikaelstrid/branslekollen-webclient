@@ -6,11 +6,12 @@
             function CreateVehicleController(vehicleService) {
                 this.vehicleName = '';
                 this.fuel = 'petrol';
+
                 this.submit = function () {
                     vehicleService.create(this.vehicleName, this.fuel)
                         .then(
-                            function(response) { alert("SUCCESS!"); },
-                            function(error) { alert("FAILED"); }
+                            function(response) { alert('OK!'); },
+                            function(error) { alert('Det gick inte att lägga till fordonet. :('); }
                         );
                 }
             }

@@ -1,3 +1,91 @@
 ﻿<bk-menu></bk-menu>
 
-<h2>Lägg till tankning</h2>
+<div class="row">
+    <div class="medium-12 columns">
+        <h2>Lägg till tankning</h2>
+        <p ng-if="$ctrl.message">{{$ctrl.message}}</p>
+    </div>
+</div>
+
+
+<form ng-submit="$ctrl.submit()" ng-if="$ctrl.vehicles.length > 0">
+    <div class="row" ng-show="$ctrl.vehicles.length > 1">
+        <div class="medium-12 columns">
+            <label>
+                Fordon
+                <select ng-model="$ctrl.selectedVehicleId">
+                    <option ng-repeat="vehicle in $ctrl.vehicles" value="{{vehicle.id}}">{{vehicle.name}}</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Datum
+                <input type="date" ng-model="$ctrl.date">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>Har du missat att registrera några tankningar sedan sist?</label>
+            <div class="switch">
+                <input class="switch-input" id="missedRefuelingsSwitch" type="checkbox" name="missedRefuelingsSwitch" ng-model="$ctrl.missedRefuelings">
+                <label class="switch-paddle" for="missedRefuelingsSwitch">
+                    <span class="switch-active" aria-hidden="true">Ja</span>
+                    <span class="switch-inactive" aria-hidden="true">Nej</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Volym (l)
+                <input type="number" ng-model="$ctrl.numberOfLiters" step="0.01">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Pris per liter (kr/l)
+                <input type="number" ng-model="$ctrl.pricePerLiter" step="0.01">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Totalt pris (kr)
+                <input type="number" ng-value="$ctrl.numberOfLiters * $ctrl.pricePerLiter  | number : 2" disabled="disabled">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Mätarställning (km)
+                <input type="number" ng-value="$ctrl.odometer" step="1">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>Tankade du fullt?</label>
+            <div class="switch">
+                <input class="switch-input" id="fullTankSwitch" type="checkbox" name="fullTankSwitch" ng-model="$ctrl.fullTank">
+                <label class="switch-paddle" for="fullTankSwitch">
+                    <span class="switch-active" aria-hidden="true">Ja</span>
+                    <span class="switch-inactive" aria-hidden="true">Nej</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <input type="submit" id="submit" class="button" value="Lägg till" />
+        </div>
+    </div>
+</form>

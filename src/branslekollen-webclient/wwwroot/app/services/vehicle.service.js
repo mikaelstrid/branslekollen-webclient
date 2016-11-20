@@ -11,7 +11,8 @@
 
         return {
             getAll: getAll,
-            create: create
+            create: create,
+            addRefueling: addRefueling
         }
 
         function getAll() {
@@ -31,15 +32,12 @@
                     .then(
                         function(response) {
                             $log.log('vehicleService.getAll: ...response ' + JSON.stringify(response.data));
-                            if (angular.isArray(response.data)) {
-                                localVehicles = response.data;
-                            } else {
-                                localVehicles = [];
-                            } 
+                            localVehicles = response.data;
+                            updateIdsInLocalStorage(_.map(localVehicles, function(i) { return i.id; }));
                             deferred.resolve({ data: localVehicles });
                         },
                         function(error) {
-                            $log.log('vehicleService.getAll: ...error ' + JSON.stringify(response.data));
+                            $log.log('vehicleService.getAll: ...error ' + JSON.stringify(error));
                             deferred.reject(error);
                         }
                     );
@@ -65,7 +63,7 @@
                         deferred.resolve(response.data);
                     },
                     function(error) {
-                        $log.log('vehicleService.create: ...error ' + JSON.stringify(response.data));
+                        $log.log('vehicleService.create: ...error ' + JSON.stringify(error));
                         deferred.reject(error);
                     }
                 );
@@ -73,6 +71,33 @@
             return deferred.promise;
         }
 
+        function addRefueling(vehicleId, date, missedRefuelings, numberOfLiters, pricePerLiter, odometer, fullTank) {
+            var deferred = $q.defer();
+
+            var url = serviceBaseUrl + resourceUrl + '/add-refueling/' + vehicleId;
+            var data = {
+                date: date,
+                missedRefuelings: missedRefuelings,
+                numberOfLiters: numberOfLiters,
+                pricePerLiter: pricePerLiter,
+                odometer: odometer,
+                fullTank: fullTank
+            };
+            $log.log('vehicleService.addRefueling: Making POST request to ' + url + ' with data ' + JSON.stringify(data) + '...');
+
+            $http.post(url, data)
+                .then(
+                    function (response) {
+                        $log.log('vehicleService.addRefueling: ...response ' + JSON.stringify(response.data));
+                        deferred.resolve(response.data);
+                    },
+                    function (error) {
+                        $log.log('vehicleService.addRefueling: ...error ' + JSON.stringify(error));
+                        deferred.reject(error);
+                    }
+                );
+            return deferred.promise;
+        }
 
         // === Private functions ===
         function getIdsFromLocalStorage() {
@@ -91,6 +116,10 @@
         function addIdToLocalStorage(id) {
             var ids = getIdsFromLocalStorage();
             ids.push(id);
+            localStorageService.set(localStorageKey, ids);
+        }
+
+        function updateIdsInLocalStorage(ids) {
             localStorageService.set(localStorageKey, ids);
         }
     }
