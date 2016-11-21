@@ -7,6 +7,15 @@
     </div>
 </div>
 
+<div class="row" ng-if="$ctrl.loading">
+    <div class="medium-12 columns">
+        <p>Laddar fordon...</p>
+    </div>
+</div>
+
+<bk-no-connection ng-if="!$ctrl.loading && $ctrl.noConnection" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
+<bk-no-connection ng-if="!$ctrl.loading && $ctrl.addRefuelingFailed" message="Lyckades inte lägga till tankningen, prova att försöka igen. :("></bk-no-connection>
 
 <form ng-submit="$ctrl.submit()" ng-if="$ctrl.vehicles.length > 0">
     <div class="row" ng-show="$ctrl.vehicles.length > 1">

@@ -3,12 +3,9 @@
         <p>Laddar fordon...</p>
     </div>
 </div>
-<div class="row" ng-if="!$ctrl.loading && $ctrl.noConnection">
-    <div class="medium-12 columns">
-        <p>Kunde inte få kontakt med servern just nu. :(</p>
-        <a class="button" ng-click="$ctrl.loadVehicles()">Försök igen</a>
-    </div>
-</div>
+
+<bk-no-connection ng-if="!$ctrl.loading && $ctrl.noConnection" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
 <div class="row" ng-if="!$ctrl.loading && !$ctrl.noConnection">
     <div class="medium-12 columns">
         <h2>Välkommen</h2>

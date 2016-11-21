@@ -6,7 +6,9 @@
             '$location', '$log', 'vehicleService',
             function AddRefuelingController($location, $log, vehicleService) {
                 var self = this;
-                self.loading = true;
+                self.loading = false;
+                self.noConnection = false;
+                self.addRefuelingFailed = false;
                 self.vehicles = [];
                 self.selectedVehicleId = null;
 
@@ -17,30 +19,41 @@
                 self.odometer = 79876;
                 self.fullTank = true;
 
+                self.loadVehicles = function () {
+                    self.loading = true;
+                    self.addRefuelingFailed = false;
+                    vehicleService.getAll()
+                        .then(
+                            function (response) {
+                                self.noConnection = false;
+                                if (response.data && response.data.length > 0) {
+                                    self.vehicles = response.data;
+                                    self.selectedVehicleId = self.vehicles[0].id;
+                                }
+                            },
+                            function (error) {
+                                $log.log('Error getting vehicles, error: ' + JSON.stringify(error));
+                                self.noConnection = true;
+                            }
+                        )
+                        .finally(function () { self.loading = false; });
+                }
+
                 self.submit = function () {
                     vehicleService.addRefueling(self.selectedVehicleId, self.date, self.missedRefuelings, self.numberOfLiters, self.pricePerLiter, self.odometer, self.fullTank)
                         .then(
-                            function (response) { alert("SUCCESS!"); },
-                            function (error) { alert("FAILED"); }
+                            function (response) {
+                                $location.path('/historik');
+                            },
+                            function(error) {
+                                self.addRefuelingFailed = true;
+                            }
                         );
                 }
 
-
-                self.message = 'Hämtar fordon...';
-                vehicleService.getAll()
-                    .then(
-                        function(response) {
-                            if (response.data && response.data.length > 0) {
-                                self.message = '';
-                                self.vehicles = response.data;
-                                self.selectedVehicleId = self.vehicles[0].id;
-                            }
-                        },
-                        function(error) {
-                            $log.log('Error getting vehicles, error: ' + JSON.stringigy(error));
-                        }
-                    )
-                    .finally(function() { self.loading = false; });
+                
+                // === INIT ===
+                self.loadVehicles();
             }
         ]
     });
