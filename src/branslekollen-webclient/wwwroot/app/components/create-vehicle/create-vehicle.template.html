@@ -6,7 +6,25 @@
     </div>
 </div>
 
-<form ng-submit="$ctrl.submit()">
+<div class="row" ng-if="$ctrl.inProgress">
+    <div class="medium-12 columns">
+        <p>Skapar fordon...</p>
+    </div>
+</div>
+
+<div class="row" ng-if="!$ctrl.inProgress && $ctrl.createOk">
+    <div class="medium-12 columns">
+        <p>Fordon skapat, vi tar dig strax vidare...</p>
+    </div>
+</div>
+
+<div class="row" ng-if="!$ctrl.inProgress && $ctrl.createFailed">
+    <div class="medium-12 columns">
+        <p>Det gick inte att lägga till fordonet av någon anledning, försök igen... :(</p>
+    </div>
+</div>
+
+<form ng-submit="$ctrl.submit()" ng-if="!$ctrl.inProgress">
     <div class="row">
         <div class="medium-12 columns">
             <label>
