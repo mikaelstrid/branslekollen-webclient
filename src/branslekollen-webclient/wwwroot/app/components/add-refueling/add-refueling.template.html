@@ -3,15 +3,10 @@
 <div class="row">
     <div class="medium-12 columns">
         <h2>Lägg till tankning</h2>
-        <p ng-if="$ctrl.message">{{$ctrl.message}}</p>
     </div>
 </div>
 
-<div class="row" ng-if="$ctrl.loading">
-    <div class="medium-12 columns">
-        <p>Laddar fordon...</p>
-    </div>
-</div>
+<bk-loading-vehicles ng-if="$ctrl.loading"></bk-loading-vehicles>
 
 <bk-no-connection ng-if="!$ctrl.loading && $ctrl.noConnection" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
 
@@ -22,7 +17,7 @@
         <div class="medium-12 columns">
             <label>
                 Fordon
-                <select ng-model="$ctrl.selectedVehicleId">
+                <select ng-model="$ctrl.selectedVehicleId" disabled="disabled">
                     <option ng-repeat="vehicle in $ctrl.vehicles" value="{{vehicle.id}}">{{vehicle.name}}</option>
                 </select>
             </label>

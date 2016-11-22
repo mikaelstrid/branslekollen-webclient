@@ -1,3 +1,35 @@
 ﻿<bk-menu></bk-menu>
 
-<h2>Historik</h2>
+<div class="row">
+    <div class="medium-12 columns">
+        <h2>Historik</h2>
+    </div>
+</div>
+
+<bk-loading-vehicles ng-if="$ctrl.loading"></bk-loading-vehicles>
+
+<bk-no-connection ng-if="!$ctrl.loading && $ctrl.noConnection" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
+<div class="row" ng-show="$ctrl.vehicles.length > 1">
+    <div class="medium-12 columns">
+        <label>
+            Fordon
+            <select ng-options="vehicle.name for vehicle in $ctrl.vehicles" ng-model="$ctrl.selectedVehicle"></select>
+        </label>
+    </div>
+</div>
+
+<div class="row">
+    <div class="medium-12 columns">
+        <table>
+            <tbody>
+                <tr ng-repeat="refueling in $ctrl.selectedVehicle.refuelings">
+                    <td>{{refueling.date | date:'d MMM'}}</td>
+                    <td>{{refueling.numberOfLiters}} l</td>
+                    <td>{{refueling.pricePerLiter * refueling.numberOfLiters | number : 2}} kr</td>
+                    <td>*</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
