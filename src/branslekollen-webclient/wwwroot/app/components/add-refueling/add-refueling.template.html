@@ -31,7 +31,7 @@
             </label>
         </div>
     </div>
-    <div class="row">
+    <div class="row hide">
         <div class="medium-12 columns">
             <label>Har du missat att registrera några tankningar sedan sist?</label>
             <div class="switch">
@@ -71,11 +71,11 @@
         <div class="medium-12 columns">
             <label>
                 Mätarställning (km)
-                <input type="number" ng-value="$ctrl.odometer" step="1">
+                <input type="number" ng-model="$ctrl.odometerInKm" step="1">
             </label>
         </div>
     </div>
-    <div class="row">
+    <div class="row hide">
         <div class="medium-12 columns">
             <label>Tankade du fullt?</label>
             <div class="switch">

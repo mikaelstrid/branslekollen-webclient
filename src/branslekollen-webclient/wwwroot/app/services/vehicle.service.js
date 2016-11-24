@@ -71,7 +71,7 @@
             return deferred.promise;
         }
 
-        function addRefueling(vehicleId, date, missedRefuelings, numberOfLiters, pricePerLiter, odometer, fullTank) {
+        function addRefueling(vehicleId, date, missedRefuelings, numberOfLiters, pricePerLiter, odometerInKm, fullTank) {
             var deferred = $q.defer();
 
             var url = serviceBaseUrl + resourceUrl + '/add-refueling/' + vehicleId;
@@ -80,7 +80,7 @@
                 missedRefuelings: missedRefuelings,
                 numberOfLiters: numberOfLiters,
                 pricePerLiter: pricePerLiter,
-                odometer: odometer,
+                odometerInKm: odometerInKm,
                 fullTank: fullTank
             };
             $log.log('vehicleService.addRefueling: Making POST request to ' + url + ' with data ' + JSON.stringify(data) + '...');

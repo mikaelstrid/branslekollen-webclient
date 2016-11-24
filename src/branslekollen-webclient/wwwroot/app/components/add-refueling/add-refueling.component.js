@@ -16,7 +16,7 @@
                 self.missedRefuelings = false;
                 self.numberOfLiters = 57.3;
                 self.pricePerLiter = 13;
-                self.odometer = 79876;
+                self.odometerInKm = 79876;
                 self.fullTank = true;
 
                 self.loadVehicles = function () {
@@ -40,7 +40,7 @@
                 }
 
                 self.submit = function () {
-                    vehicleService.addRefueling(self.selectedVehicleId, self.date, self.missedRefuelings, self.numberOfLiters, self.pricePerLiter, self.odometer, self.fullTank)
+                    vehicleService.addRefueling(self.selectedVehicleId, self.date, self.missedRefuelings, self.numberOfLiters, self.pricePerLiter, self.odometerInKm, self.fullTank)
                         .then(
                             function (response) {
                                 $location.path('/historik');
