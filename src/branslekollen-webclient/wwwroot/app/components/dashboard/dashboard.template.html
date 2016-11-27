@@ -1,3 +1,54 @@
 ﻿<bk-menu></bk-menu>
 
-<h2>Dashboard</h2>
+
+<div class="row">
+    <div class="medium-12 columns">
+        <h2>Dashboard</h2>
+    </div>
+</div>
+
+<bk-loading-vehicles ng-if="$ctrl.loadingVehicles"></bk-loading-vehicles>
+
+<bk-no-connection ng-if="!$ctrl.loadingVehicles && $ctrl.failedLoadingVehicles" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
+<div class="row" ng-show="!$ctrl.loadingVehicles && $ctrl.vehicles.length > 1">
+    <div class="medium-12 columns">
+        <label>
+            Fordon
+            <select ng-model="$ctrl.selectedVehicleId" disabled="disabled">
+                <option ng-repeat="vehicle in $ctrl.vehicles" value="{{vehicle.id}}">{{vehicle.name}}</option>
+            </select>
+        </label>
+    </div>
+</div>
+
+<div class="row" ng-show="!$ctrl.loadingVehicles && !$ctrl.failedLoadingVehicles">
+    <div class="medium-12 columns">
+        <label>
+            Tidsperiod
+            <select ng-model="$ctrl.selectedTimeframe" ng-change="$ctrl.selectedTimeframeChanged()">
+                <option value="month">Månad</option>
+                <option value="quarter">Kvartal</option>
+                <option value="year">År</option>
+            </select>
+        </label>
+        <p>{{$ctrl.startDate | date:'yyyy-MM-dd'}} - {{$ctrl.endDate | date:'yyyy-MM-dd'}}</p>
+        <p>
+            <a ng-click="$ctrl.changePeriod(-1)">Tidigare</a> <a ng-click="$ctrl.changePeriod(1)">Senare</a>
+        </p>
+    </div>
+</div>
+
+<div class="row" ng-show="$ctrl.gettingStatistics">
+    <div class="medium-12 columns">
+        <p>Laddar statistik...</p>
+    </div>
+</div>
+
+<bk-no-connection ng-if="$ctrl.failedGettingStatistics" retry-fn="$ctrl.updateStatistics" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
+<div class="row" ng-show="!$ctrl.loadingVehicles && !$ctrl.failedLoadingVehicles && !$ctrl.gettingStatistics && !$ctrl.failedGettingStatistics">
+    <div class="medium-12 columns">
+        <p>Genomsnittlig förbrukning: {{$ctrl.statistics.fuelConsumptionInLitersPerKm | fuelConsumption}} </p>
+    </div>
+</div>

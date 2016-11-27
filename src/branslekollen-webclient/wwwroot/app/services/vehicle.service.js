@@ -4,7 +4,8 @@
     function ($http, $q, $log, localStorageService) {
 
         var serviceBaseUrl = 'http://localhost:51058/api';
-        var resourceUrl = '/vehicles';
+        var vehiclePath = '/vehicles';
+        var statisticsPath = '/statistics';
 
         var localStorageKey = 'bkVehicleIds';
         var localVehicles = [];
@@ -12,7 +13,8 @@
         return {
             getAll: getAll,
             create: create,
-            addRefueling: addRefueling
+            addRefueling: addRefueling,
+            getStatistics: getStatistics
         }
 
         function getAll() {
@@ -26,7 +28,7 @@
 
             var localIds = getIdsFromLocalStorage();
             if (localIds.length > 0) {
-                var url = serviceBaseUrl + resourceUrl + '/ids';
+                var url = serviceBaseUrl + vehiclePath + '/ids';
                 $log.log('vehicleService.getAll: Making GET request to ' + url + ' with ids ' + JSON.stringify(localIds) + '...');
                 $http.get(url, { params: { ids: localIds }})
                     .then(
@@ -51,7 +53,7 @@
         function create(name, fuel) {
             var deferred = $q.defer();
 
-            var url = serviceBaseUrl + resourceUrl;
+            var url = serviceBaseUrl + vehiclePath;
             $log.log('vehicleService.create: Making POST request to ' + url + ' with {name: ' + name + ', fuel: ' + fuel +'}...');
 
             $http.post(url, { name: name, fuel: fuel })
@@ -74,7 +76,7 @@
         function addRefueling(vehicleId, date, missedRefuelings, numberOfLiters, pricePerLiter, odometerInKm, fullTank) {
             var deferred = $q.defer();
 
-            var url = serviceBaseUrl + resourceUrl + '/add-refueling/' + vehicleId;
+            var url = serviceBaseUrl + vehiclePath + '/add-refueling/' + vehicleId;
             var data = {
                 date: date,
                 missedRefuelings: missedRefuelings,
@@ -98,6 +100,26 @@
                 );
             return deferred.promise;
         }
+
+        function getStatistics(vehicleId, startDate, endDate) {
+            var deferred = $q.defer();
+            var url = serviceBaseUrl + statisticsPath + '/vehicle/' + vehicleId + '?startDate=' + moment(startDate).format('YYYY-MM-DD') + '&endDate=' + moment(endDate).format('YYYY-MM-DD');
+            
+            $log.log('vehicleService.getStatistics: Making GET request to ' + url + '...');
+            $http.get(url)
+                .then(
+                    function (response) {
+                        $log.log('vehicleService.getStatistics: ...response ' + JSON.stringify(response.data));
+                        deferred.resolve({ data: response.data });
+                    },
+                    function (error) {
+                        $log.log('vehicleService.getStatistics: ...error ' + JSON.stringify(error));
+                        deferred.reject(error);
+                    }
+                );
+            return deferred.promise;
+        }
+
 
         // === Private functions ===
         function getIdsFromLocalStorage() {
