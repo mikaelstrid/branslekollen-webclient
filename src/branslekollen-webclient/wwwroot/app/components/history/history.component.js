@@ -3,8 +3,8 @@
     {
         templateUrl: 'app/components/history/history.template.html',
         controller: [
-            '$log', 'vehicleService',
-            function HistoryController($log, vehicleService) {
+            '$location', '$log', 'vehicleService',
+            function HistoryController($location, $log, vehicleService) {
                 var self = this;
                 self.loading = false;
                 self.noConnection = false;
@@ -30,6 +30,11 @@
                         )
                         .finally(function() { self.loading = false; });
                 }
+
+                self.gotoDetails = function(refuelingId) {
+                    $location.path('/tankning/' + self.selectedVehicle.id + '/' + refuelingId);
+                }
+
 
                 self.loadVehicles();
             }

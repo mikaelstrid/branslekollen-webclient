@@ -14,6 +14,7 @@
             getAll: getAll,
             create: create,
             addRefueling: addRefueling,
+            updateRefueling: updateRefueling,
             getStatistics: getStatistics
         }
 
@@ -95,6 +96,26 @@
                     },
                     function (error) {
                         $log.log('vehicleService.addRefueling: ...error ' + JSON.stringify(error));
+                        deferred.reject(error);
+                    }
+                );
+            return deferred.promise;
+        }
+
+        function updateRefueling(vehicleId, refueling) {
+            var deferred = $q.defer();
+
+            var url = serviceBaseUrl + vehiclePath + '/refueling/' + vehicleId;
+            $log.log('vehicleService.updateRefueling: Making PUT request to ' + url + ' with data ' + JSON.stringify(refueling) + '...');
+
+            $http.put(url, refueling)
+                .then(
+                    function (response) {
+                        $log.log('vehicleService.updateRefueling: ...response ' + JSON.stringify(response.data));
+                        deferred.resolve(response.data);
+                    },
+                    function (error) {
+                        $log.log('vehicleService.updateRefueling: ...error ' + JSON.stringify(error));
                         deferred.reject(error);
                     }
                 );

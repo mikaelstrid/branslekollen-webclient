@@ -1,3 +1,89 @@
 ﻿<bk-menu></bk-menu>
 
-<h2>Tankning</h2>
+<div class="row">
+    <div class="medium-12 columns">
+        <h2>Tankning</h2>
+    </div>
+</div>
+
+<bk-loading-vehicles ng-if="$ctrl.loadingVehicles"></bk-loading-vehicles>
+
+<bk-no-connection ng-if="!$ctrl.loadingVehicles && $ctrl.failedWhenLoadingVehicles" retry-fn="$ctrl.loadVehicles" message="Ingen kontakt med servern just nu. :("></bk-no-connection>
+
+<bk-no-connection ng-if="$ctrl.failedWhenLookingForMatchingRefuelingId" message="Oops, hittade inte tankningen. :("></bk-no-connection>
+
+<bk-no-connection ng-if="$ctrl.failedWhenSavingChanges" message="Lyckades inte spara ändringarna, prova att försöka igen. :("></bk-no-connection>
+
+<form ng-submit="$ctrl.submit()" ng-show="$ctrl.currentRefueling">
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Datum
+                <input type="date" ng-model="$ctrl.currentRefueling.date" ng-disabled="!$ctrl.isInEditMode">
+            </label>
+        </div>
+    </div>
+    <div class="row hide">
+        <div class="medium-12 columns">
+            <label>Har du missat att registrera några tankningar sedan sist?</label>
+            <div class="switch">
+                <input class="switch-input" id="missedRefuelingsSwitch" type="checkbox" name="missedRefuelingsSwitch" ng-model="$ctrl.missedRefuelings" ng-disabled="!$ctrl.isInEditMode">
+                <label class="switch-paddle" for="missedRefuelingsSwitch">
+                    <span class="switch-active" aria-hidden="true">Ja</span>
+                    <span class="switch-inactive" aria-hidden="true">Nej</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Volym (l)
+                <input type="number" ng-model="$ctrl.currentRefueling.numberOfLiters" step="0.01" ng-disabled="!$ctrl.isInEditMode">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Pris per liter (kr/l)
+                <input type="number" ng-model="$ctrl.currentRefueling.pricePerLiter" step="0.01" ng-disabled="!$ctrl.isInEditMode">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Totalt pris (kr)
+                <input type="number" ng-value="$ctrl.currentRefueling.numberOfLiters * $ctrl.currentRefueling.pricePerLiter  | number : 2" disabled="disabled">
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <label>
+                Mätarställning (km)
+                <input type="number" ng-model="$ctrl.currentRefueling.odometerInKm" step="1" ng-disabled="!$ctrl.isInEditMode">
+            </label>
+        </div>
+    </div>
+    <div class="row hide">
+        <div class="medium-12 columns">
+            <label>Tankade du fullt?</label>
+            <div class="switch">
+                <input class="switch-input" id="fullTankSwitch" type="checkbox" name="fullTankSwitch" ng-model="$ctrl.currentRefueling.fullTank" ng-disabled="!$ctrl.isInEditMode">
+                <label class="switch-paddle" for="fullTankSwitch">
+                    <span class="switch-active" aria-hidden="true">Ja</span>
+                    <span class="switch-inactive" aria-hidden="true">Nej</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            <input type="button" class="button" value="Redigera" ng-show="!$ctrl.isInEditMode" ng-click="$ctrl.isInEditMode = true;" />
+            <input type="submit" id="submit" class="success button" value="Spara" ng-show="$ctrl.isInEditMode" />
+            <input type="button" class="hollow button" value="Avbryt" ng-show="$ctrl.isInEditMode" ng-click="$ctrl.isInEditMode = false;" />
+        </div>
+    </div>
+</form>

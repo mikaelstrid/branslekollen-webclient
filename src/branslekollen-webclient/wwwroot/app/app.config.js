@@ -26,7 +26,7 @@ angular.
             when('/lagg-till-fordon', {
                 template: '<create-vehicle></create-vehicle>'
             }).
-            when('/tankning', {
+            when('/tankning/:vehicleId/:refuelingId', {
                 template: '<refueling></refueling>'
             }).
             otherwise('/start');
